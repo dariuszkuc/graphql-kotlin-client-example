@@ -5,11 +5,25 @@ import com.expediagroup.graphql.generated.AddObjectMutation
 import com.expediagroup.graphql.generated.HelloWorldQuery
 import com.expediagroup.graphql.generated.RetrieveObjectQuery
 import com.expediagroup.graphql.generated.UpdateObjectMutation
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.engine.okhttp.OkHttpEngine
 import kotlinx.coroutines.runBlocking
 import java.net.URL
+import java.util.concurrent.TimeUnit
 
 fun main() {
-    val client = GraphQLClient(url = URL("http://localhost:8080/graphql"))
+    val okHttpEngine = OkHttp.create {
+        config {
+            connectTimeout(1, TimeUnit.SECONDS)
+            readTimeout(60, TimeUnit.SECONDS)
+            writeTimeout(60, TimeUnit.SECONDS)
+        }
+//        addInterceptor(myInterceptor)
+    }
+    val customObjectMapper = jacksonObjectMapper()
+    val client = GraphQLClient(url = URL("http://localhost:8080/graphql"), mapper = customObjectMapper)
     val helloWorldQuery = HelloWorldQuery(client)
     println("HelloWorld examples")
     runBlocking {

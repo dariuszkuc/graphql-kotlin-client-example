@@ -1,14 +1,13 @@
 package com.expediagroup.graphql.examples.model
 
 import com.expediagroup.graphql.annotations.GraphQLDescription
-import com.expediagroup.graphql.annotations.GraphQLID
+import com.expediagroup.graphql.types.ID
 import java.util.UUID
 
 @GraphQLDescription("Wrapper that holds all supported scalar types")
 data class ScalarWrapper(
     @GraphQLDescription("ID represents unique identifier that is not intended to be human readable")
-    @GraphQLID
-    val id: String,
+    val id: ID,
     @GraphQLDescription("UTF-8 character sequence")
     val name: String,
     @GraphQLDescription("Either true or false")

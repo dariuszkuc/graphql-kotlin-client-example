@@ -14,6 +14,7 @@ import com.expediagroup.graphql.examples.model.SecondInterfaceImplementation
 import com.expediagroup.graphql.examples.model.SimpleArgument
 import com.expediagroup.graphql.examples.repository.BasicObjectRepository
 import com.expediagroup.graphql.spring.operations.Query
+import com.expediagroup.graphql.types.ID
 import org.springframework.stereotype.Component
 import java.util.UUID
 import kotlin.random.Random
@@ -31,7 +32,7 @@ class SimpleQueries(private val repository: BasicObjectRepository) : Query {
 
     @GraphQLDescription("Query that returns wrapper object with all supported scalar types")
     fun scalarQuery() = ScalarWrapper(
-        id = random.nextInt().toString(),
+        id = ID(random.nextInt().toString()),
         name = "Scalar Wrapper",
         valid = true,
         count = 1,

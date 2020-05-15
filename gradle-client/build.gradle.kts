@@ -4,7 +4,7 @@ import com.expediagroup.graphql.plugin.gradle.graphql
 plugins {
     application
     id("org.jetbrains.kotlin.jvm") version "1.3.72"
-    id("com.expediagroup.graphql") version "3.0.0-RC6"
+//    id("com.expediagroup.graphql") version "3.0.0-SNAPSHOT"
 }
 
 repositories {
@@ -13,8 +13,23 @@ repositories {
 }
 
 dependencies {
-    implementation("com.expediagroup:graphql-kotlin-client:3.0.0-RC6")
+    implementation("com.expediagroup:graphql-kotlin-client:3.0.0-SNAPSHOT")
+    implementation("io.ktor:ktor-client-okhttp:1.3.1")
+    implementation("io.ktor:ktor-client-logging-jvm:1.3.1")
 }
+
+// TODO remove this section after final release
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+
+    dependencies{
+        classpath("com.expediagroup:graphql-kotlin-gradle-plugin:3.0.0-SNAPSHOT")
+    }
+}
+
+apply(plugin = "com.expediagroup.graphql")
 
 application {
     mainClassName = "com.expediagroup.graphql.examples.client.ApplicationKt"
@@ -27,8 +42,7 @@ graphql {
 
     // optional
     allowDeprecatedFields = true
-    scalarConverters.put("UUID", ScalarConverterMapping("java.util.UUID", "com.expediagroup.graphql.examples.client.UUIDScalarConverter"))
-    queryFiles.setFrom()
+    converters.put("UUID", ScalarConverterMapping("java.util.UUID", "com.expediagroup.graphql.examples.client.UUIDScalarConverter"))
 }
 
 tasks {
